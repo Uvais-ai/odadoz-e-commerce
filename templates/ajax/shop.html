@@ -1,0 +1,35 @@
+{% for product in products %}
+<div class="product_layout1">
+<div class="item_badge badge" style="background-color: {{ product.background_color.color_code }}">
+    <span>{{ product.background_color.name }}</span>
+</div>
+<div class="item_image">
+    <a href="{{product.get_absolute_url}}">
+    <img src="{{product.image.url}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+    <img src="{{product.image.url}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+    </a>
+    <a class="quickview_btn" data-bs-toggle="modal" href="#quickview_popup" role="button">Quick View</a>
+</div>
+<div class="item_content">
+    <h3 class="item_title">
+    <a href="shop_details.html">{{product.name|truncatechars:40}}</a>
+    </h3>
+    <ul class="rating_star ul_li">
+    <li><i class="fa-solid fa-star"></i></li>
+    <li><i class="fa-solid fa-star"></i></li>
+    <li><i class="fa-solid fa-star"></i></li>
+    <li><i class="fa-solid fa-star"></i></li>
+    <li><i class="fa-solid fa-star"></i></li>
+    </ul>
+    <div class="item_price">
+    <span>${{product.price}}</span>
+    <del>$720.00</del>
+    </div>
+    <ul class="item_btns_group ul_li">
+    <li><a class="addtocart_btn" href="shop_details.html">Add To Cart</a></li>
+    <li><a href="javascript:void(0)"><i class="fa-solid fa-arrows-rotate"></i></a></li>
+    <li><a href="javascript:void(0)"><i class="fas fa-heart"></i></a></li>
+    </ul>
+</div>
+</div>
+{% endfor %}

@@ -1,0 +1,79 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n crispy_forms_tags %}
+{% load static %}
+{% block title %}{% trans "Log in" %}{% endblock %}
+
+{% block content %}
+
+<div class="header_middle">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-3 col-md-4 col-6">
+                <div class="brand_logo">
+                    <a class="brand_link" href="{% url "product:index" %}">
+                        <img src="{% static 'assets/images/logo/Odadoz (5).png' %}" alt="Getyootech - Gadgets Ecommerce Site Template" class="img-fluid">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-8 col-6">
+                <nav class="main_menu navbar navbar-expand-lg">
+                    <!-- Add any menu items here if needed -->
+                </nav>
+            </div>
+            <div class="col-lg-3 col-md-12 mt-3 mt-lg-0 d-flex justify-content-between">
+                <a class="btn btn-danger" href="{% url 'registration_register' %}">{% trans "Sign up" %}</a>
+                <a class="btn btn-danger" href="{% url 'auth_login' %}">{% trans "Login" %}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="text-center">
+                <img src="{% static 'assets/images/cart/cart_img_1.webp' %}" alt="Login Image" class="img-fluid" style="max-width: 80%;">
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <form method="post" action="">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" style="background:#d90000;" class="btn mt-3">{% trans 'Log in' %}</button>
+                <input type="hidden" name="next" value="{{ next }}" />
+            </form>
+            <p class="mt-3">{% trans "Forgot your password?" %} <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>.</p>
+            <p>{% trans "Not a member?" %} <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% comment %}
+**registration/login.html**
+
+It's your responsibility to provide the login form in a template called
+registration/login.html by default. This template gets passed four
+template context variables:
+
+``form``
+    A Form object representing the login form. See the forms
+    documentation for more on Form objects.
+
+``next``
+    The URL to redirect to after successful login. This may contain a
+    query string, too.
+
+``site``
+    The current Site, according to the SITE_ID setting. If you don't
+    have the site framework installed, this will be set to an instance
+    of RequestSite, which derives the site name and domain from the
+    current HttpRequest.
+
+``site_name``
+    An alias for site.name. If you don't have the site framework
+    installed, this will be set to the value of
+    request.META['SERVER_NAME']. For more on sites, see The
+    "sites" framework.
+{% endcomment %}

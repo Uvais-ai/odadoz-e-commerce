@@ -1,0 +1,93 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+  <head>
+
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  	<meta http-equiv="x-ua-compatible" content="ie=edge">
+    
+  	<link rel="shortcut icon" href="{% static 'assets/images/logo/favourite_icon.svg' %}">
+
+  	<!-- fraimwork - css include -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+
+    <!-- icon font - css include -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/fontawesome.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/stroke-gap-icons.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/icofont.css' %}">
+
+    <!-- animation - css include -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/animate.css' %}">
+
+    <!-- carousel - css include -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/slick.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/slick-theme.css' %}">
+
+    <!-- popup - css include -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/magnific-popup.css' %}">
+
+    <!-- jquery-ui - css include -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/jquery-ui.css' %}">
+
+    <!-- select option - css include -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/nice-select.css' %}">
+
+    <!-- custom - css include -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+
+    <!-- script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.3/dist/sweetalert2.all.min.js"></script>
+
+  </head>
+
+
+  <body>
+
+    {% include "partials/header.html" %}
+    {% block content %}
+    
+    {% endblock  %}
+    {% include "partials/footer.html" %}
+    {% block script %} {% endblock  %}
+
+    <!-- fraimwork - jquery include -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap5-dropdown-ml-hack.js' %}"></script>
+
+    <!-- carousel - jquery include -->
+    <script src="{% static 'assets/js/slick.min.js' %}"></script>
+
+    <!-- popup - jquery include -->
+    <script src="{% static 'assets/js/magnific-popup.min.js' %}"></script>
+
+    <!-- jquery-ui - jquery include -->
+    <script src="{% static 'assets/js/jquery-ui.js' %}"></script>
+
+    <!-- off canvas sidebar - jquery include -->
+    <script src="{% static 'assets/js/mCustomScrollbar.js' %}"></script>
+
+    <!-- select option - jquery include -->
+    <script src="{% static 'assets/js/nice-select.min.js' %}"></script>
+
+    <!-- countdown timer - jquery include -->
+    <script src="{% static 'assets/js/countdown.js' %}"></script>
+
+    <!-- counter up - jquery include -->
+    <script src="{% static 'assets/js/counterup.min.js' %}"></script>
+    <script src="{% static 'assets/js/waypoints.min.js' %}"></script>
+
+    <!-- custom - jquery include -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    
+    <!-- ajax -->
+    <script src="{% static 'assets/js/ajax.js' %}"></script>
+
+  </body>
+</html>

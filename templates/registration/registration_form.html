@@ -1,0 +1,63 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n crispy_forms_tags %}
+{% load static %}
+{% block title %}{% trans "Register for an account" %}{% endblock %}
+
+{% block content %}
+
+<div class="header_middle">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-3 col-md-4 col-6">
+                <div class="brand_logo">
+                    <a class="brand_link" href="{% url "product:index" %}">
+                        <img src="{% static 'assets/images/logo/Odadoz (5).png' %}" alt="Getyootech - Gadgets Ecommerce Site Template" class="img-fluid">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-8 col-6">
+                <nav class="main_menu navbar navbar-expand-lg">
+                    <!-- Add any menu items here if needed -->
+                </nav>
+            </div>
+            <div class="col-lg-3 col-md-12 mt-3 mt-lg-0 d-flex justify-content-between">
+                <a class="btn btn-danger" href="{% url 'registration_register' %}">{% trans "Sign up" %}</a>
+                <a class="btn btn-danger" href="{% url 'auth_login' %}">{% trans "Login" %}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="register-section">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <img src="{% static 'assets/images/cart/cart_img_1.webp' %}" alt="Registration Image" class="img-fluid" style="max-width: 80%;">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <form method="post" action="#">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" style="background:#d90000;" class="btn mt-3">{% trans 'Register' %}</button>
+                </form>
+                <p class="login-link mt-3">{% trans "Already have an account? Login" %} <a href="{% url 'auth_login' %}">{% trans "here" %}</a>.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+{% comment %}
+**registration/registration_form.html**
+Used to show the form users will fill out to register. By default, has
+the following context:
+
+``form``
+    The registration form. This will be an instance of some subclass
+    of ``django.forms.Form``; consult `Django's forms documentation
+    <http://docs.djangoproject.com/en/dev/topics/forms/>`_ for
+    information on how to display this in a template.
+{% endcomment %}

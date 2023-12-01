@@ -1,0 +1,388 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block content %}
+{% load product_tags %}
+{% block script %} 
+    <script>
+        $(document).ready(function () {
+          // Initialize checked checkboxes based on brand_ids
+          var brandIds = {{ brand_ids|safe }};
+          brandIds.forEach(function (brandId) {
+              $('#' + brandId).prop('checked', true);
+          });
+          // Handle checkbox click events
+            $(".filter-checkbox").on('click', function () {
+                var filter_object = {};
+                $(".filter-checkbox").each(function (shop,ele) {
+                    var filter_value = $(this).val();
+                    var filter_key = $(this).data('filter');
+                    console.log(filter_key, filter_value);
+                    filter_object[filter_key] = Array.from(document.querySelectorAll('input[data-filter=' + filter_key + ']:checked')).map(function (el) {
+                        return el.value;
+                    });
+                });
+            
+                $.ajax({
+                    url: '{% url "product:filter-data" %}',
+                    data: filter_object,
+                    dataType: 'json',
+                    success: function (res) {
+                        $("#filteredProducts").html(res.data);
+                        var filter_values=$(this).val();
+                        var filter_key=$(this).data('filter');
+                    }
+                });
+            });
+            // Handle checkbox change events
+            $(".filter-checkbox").on('change', function () {
+              // Submit the form when a checkbox is changed
+              $("#filterForm").submit();
+          });
+        });
+    </script>
+{% endblock  %}
+
+
+    <!-- body_wrap - start -->
+    <div class="body_wrap">
+
+      <!-- backtotop - start -->
+      <div class="backtotop">
+        <a href="javascript:void(0)" class="scroll">
+          <i class="far fa-arrow-up"></i>
+        </a>
+      </div>
+      <!-- backtotop - end -->
+
+      <!-- preloader - start -->
+      <div id="preloader"></div>
+      <!-- preloader - end -->
+
+
+      <!-- main body - start
+      ================================================== -->
+      <main>
+
+                <!-- sidebar cart - start
+        ================================================== -->
+        <div class="sidebar-menu-wrapper">
+          <div class="cart_sidebar">
+            <button type="button" class="close_btn"><i class="fal fa-times"></i></button>
+
+            <ul class="cart_items_list ul_li_block mb_30 clearfix">
+              {% for key,value in request.session.cart.items %}
+              <li>
+                <div class="item_image">
+                  <img src="{{value.image}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                </div>
+                <div class="item_content">
+                  <h4 class="item_title">{{value.name}}</h4>
+                  <span class="item_price">${{value.price}}</span>
+                </div>
+                <a href="{% url "order:item_clear" key %}"><button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button></a>
+              </li>
+              {% endfor %}
+            </ul>
+
+            <ul class="total_price ul_li_block mb_30 clearfix">
+              <li>
+                <span>Subtotal:</span>
+                <span>${{cart_total_amount}}</span>
+              </li>
+              <li>
+                <span>Vat 5%:</span>
+                <span>$4.5</span>
+              </li>
+              <li>
+                <span>Discount 20%:</span>
+                <span>- $18.9</span>
+              </li>
+              <li>
+                <span>Total:</span>
+                <span>${{cart_total_amount}}</span>
+              </li>
+            </ul>
+
+            <ul class="btns_group ul_li_block clearfix">
+              <li><a class="btn btn_primary" href="{% url "order:cart_detail" %}">View Cart</a></li>
+              <li><a class="btn btn_secondary" href="checkout.html">Checkout</a></li>
+            </ul>
+          </div>
+
+          <div class="cart_overlay"></div>
+        </div>
+        <!-- sidebar cart - end
+        ================================================== -->
+        
+        <!-- product quick view modal - start
+        ================================================== -->
+        {% for product in products %}
+        <div class="modal fade" id="quickview_popup-{{forloop.counter}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">Product Quick View</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="product_details">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col col-lg-6">
+                        <div class="product_details_image p-0">
+                          <img src="{{product.image.url}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div class="product_details_content">
+                          <h2 class="item_title">{{product.name}}</h2>
+                          <p>
+                            {{product.product_information|safe|truncatechars:500}}
+                          </p>
+                          <div class="item_review">
+                            <ul class="rating_star ul_li">
+                              <li><i class="fa-solid fa-star"></i></li>
+                              <li><i class="fa-solid fa-star"></i></li>
+                              <li><i class="fa-solid fa-star"></i></li>
+                              <li><i class="fa-solid fa-star"></i></li>
+                              <li><i class="fa-solid fa-star"></i></li>
+                            </ul>
+                            <span class="review_value">3 Rating(s)</span>
+                          </div>
+                          <div class="item_price">
+                            <span>₹ {% call_sellprice product.price product.discount %}</span>&nbsp;&nbsp;<del>{{product.price}}</del>
+                          </div>
+
+                          <hr>
+
+                          <ul class="default_btns_group ul_li">
+                            <li><a class="addtocart_btn" href="{% url 'order:cart_add' product.id %}">Add To Cart</a></li>
+                            <li><a href="javascript:void(0)"><i class="fa-solid fa-arrows-rotate"></i></a></li>
+                            <li><a href="{% url 'order:add_to_wishlist' product_id=product.id %}"><i class="fas fa-heart"></i></a></li>
+                          </ul>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <!-- product quick view modal - end
+        ================================================== -->
+
+        <!-- breadcrumb_section - start
+        ================================================== -->
+        <div class="breadcrumb_section">
+          <div class="container">
+            <ul class="breadcrumb_nav ul_li">
+              <li ><a href="{% url "product:index" %}">Home</a></li>
+              <li ><a href="{% url "product:shop" %}">Shop</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- breadcrumb_section - end
+        ================================================== -->
+
+        <!-- product_section - start
+        ================================================== -->
+        <section class="product_section section_space">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-9">
+                <div class="filter_topbar">
+                  <div class="row align-items-center">
+                    <div class="col col-md-4 col-sm-4">
+                      <ul class="layout_btns nav" role="tablist">
+                        <li role="presentation">
+                          <button class="active" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                            <i class="fal fa-bars"></i>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="col col-md-4 col-sm-4">
+                      <form method="get" action="">
+                        <div class="select_option clearfix">
+                          <select name="sort_by" onchange="this.form.submit()">
+                            <option data-display="Defaul Sorting" value="all_products" {% if request.GET.sort_by == 'all_products' %}selected{% endif %}>Sort by: All Products</option>
+                            <option value="low_to_high" {% if request.GET.sort_by == 'low_to_high' %}selected{% endif %}>Price: Low to High</option>
+                            <option value="high_to_low" {% if request.GET.sort_by == 'high_to_low' %}selected{% endif %}>Price: High to Low</option>
+                            <option value="rating" {% if request.GET.sort_by == 'rating' %}selected{% endif %}>Rate: High to Low</option>
+                          </select>
+                        </div>
+                      </form>
+                    </div>
+
+                    <div class="col col-md-4 col-sm-4">
+                      <div class="result_text">Product-{{products|length}}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+
+                <div class="tab-content">
+                  <div class="tab-pane fade show active" id="home" role="tabpanel">
+                    <div class="product_wrap" id="filteredProducts">
+                      {% for product in products %}
+                      <div class="product_layout1">
+                        <div class="item_badge badge" style="background-color: {{ product.background_color.color_code }}">
+                          <span>{{ product.background_color.name }}</span>
+                        </div>
+                        <div class="item_image">
+                          <a href="{{product.get_absolute_url}}">
+                          <img src="{{product.image.url}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                          <img src="{{product.image.url}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                          </a>
+                           <a class="quickview_btn" data-bs-toggle="modal" href="#quickview_popup-{{forloop.counter}}" role="button">Quick View</a>
+                            {% for offer in product.get_big_sale %}
+                                <img class="item_badge big_sale" src="{{offer.image.url}}" alt="">
+                            {% endfor %}
+                        </div>
+                        <div class="item_content">
+                          <h3 class="item_title">
+                            <a href="shop_details.html">{{product.name|truncatechars:40}}</a>
+                          </h3>
+                          <ul class="rating_star ul_li">
+                            {% for star in "12345" %}
+                                {% if star|add:0 <= product.rating %}
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                {% else %}
+                                    <li><i class="fa-regular fa-star"></i></li>
+                                {% endif %}
+                            {% endfor %}
+                          </ul>
+                          <div class="item_price">
+                            <span>₹ {% call_sellprice product.price product.discount %}</span>&nbsp;&nbsp;<del>{{product.price}}</del>
+                          </div>
+                          <ul class="item_btns_group ul_li">
+                            <li><a class="addtocart_btn" href="{{product.get_absolute_url}}">Add To Cart</a></li>
+                            <li><a href="javascript:void(0)"><i class="fa-solid fa-arrows-rotate"></i></a></li>
+                            <li><a href="{% url 'order:add_to_wishlist' product_id=product.id %}"><i class="fas fa-heart"></i></a></li>
+                          </ul>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mb-0 mt-5">
+                    {% if post.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?filter={{ ishtam_view }}&page=1" aria-label="First">
+                                <span aria-hidden="true">&laquo;&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?filter={{ ishtam_view }}&page={{ post.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% for i in post.paginator.page_range %}
+                        {% if post.number == i %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?filter={{ ishtam_view }}&page={{ i }}">{{ i }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if post.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?filter={{ ishtam_view }}&page={{ post.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?filter={{ ishtam_view }}&page={{ lastpage }}" aria-label="Last">
+                                <span aria-hidden="true">&raquo;&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+              </nav>
+
+              <div class="col-lg-3 order-lg-first">
+                <aside class="sidebar_section ps-0 mt-lg-0">
+                  <div class="sb_widget sb_category">
+                    <h3 class="sb_widget_title">Categories</h3>
+                    <ul class="sb_category_list ul_li_block">
+                      {% for category in categories %}
+                      {% if category.get_products %}
+                      <li><a href="{% url 'product:shop' %}?category={{ category.slug }}">{{category.name }}<span>({{category.get_products.count}})</span></a></li>
+                      {% endif %}
+                      {% endfor %}
+                    </ul>
+                    {% comment %} {% for category in categories %}
+                        <li>
+                          <a href="{% url "product:shop" %}?category={{category.slug}}"
+                             {% if selected_category == category %} class="active" {% endif %}>
+                            {{category.name }}<span>({{category.get_products.count}})</span>
+                          </a>
+                        </li>
+                      {% endfor %} {% endcomment %}
+                  </div>
+
+                  <div class="sb_widget">
+                    <div class="filter_sidebar">
+ 
+                      <div class="fs_widget">
+                        <h3 class="fs_widget_title">Manufacturer</h3>
+                        <form id="filterForm" method="get">           
+                          <ul class="fs_brand_list ul_li_block">
+                            <li>
+                              {% for brand in brands %}
+                              <div class="checkbox_item">
+                                <input type="checkbox" name="brand" data-filter="brand" id="{{brand.slug}}" value="{{brand.slug}}" class="filter-checkbox">          
+                                <label for="{{brand.slug}}">{{brand.name}} <span>(19)</span></label>
+                              </div>
+                              {% endfor %}
+                            </li>
+                          </ul>
+                        </form>
+                      </div>
+                    
+                    <div class="fs_widget">
+                      <h3 class="fs_widget_title">Price</h3>
+                      <form id="priceFilterForm" action="{% url 'product:shop' %}" method="get">
+                        <div class="price-range-area clearfix">
+                          <div class="price-text d-flex align-items-center">
+                            <span>Range:</span>
+                            <input type="text" id="amount" readonly>
+                          </div>
+                          <div id="slider-range" class="slider-range"></div>
+                          <input type="hidden" name="min_price" id="min_price">
+                          <input type="hidden" name="max_price" id="max_price">
+                          <button type="submit" class="mt-3 btn btn-success" id="filterButton">Filter</button>
+                        </div>
+                      </form>
+                    </div>
+                    </div>
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- product_section - end
+        ================================================== -->
+
+      </main>
+      <!-- main body - end
+      ================================================== -->
+
+    </div>
+    <!-- body_wrap - end -->
+    {% endblock  %}

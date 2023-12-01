@@ -1,0 +1,136 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block content %}
+    <!-- body_wrap - start -->
+    <div class="body_wrap">
+
+      <!-- backtotop - start -->
+      <div class="backtotop">
+        <a href="javascript:void(0)" class="scroll">
+          <i class="far fa-arrow-up"></i>
+        </a>
+      </div>
+      <!-- backtotop - end -->
+
+      <!-- preloader - start -->
+      <div id="preloader"></div>
+      <!-- preloader - end -->
+
+
+      <!-- main body - start
+      ================================================== -->
+      <main>
+
+        <!-- sidebar cart - start
+        ================================================== -->
+        <div class="sidebar-menu-wrapper">
+          <div class="cart_sidebar">
+            <button type="button" class="close_btn"><i class="fal fa-times"></i></button>
+
+            <ul class="cart_items_list ul_li_block mb_30 clearfix">
+              {% for key,value in request.session.cart.items %}
+              <li>
+                <div class="item_image">
+                  <img src="{{value.image}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                </div>
+                <div class="item_content">
+                  <h4 class="item_title">{{value.name}}</h4>
+                  <span class="item_price">${{value.price}}</span>
+                </div>
+                <a href="{% url "order:item_clear" key %}"><button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button></a>
+              </li>
+              {% endfor %}
+            </ul>
+
+            <ul class="total_price ul_li_block mb_30 clearfix">
+              <li>
+                <span>Subtotal:</span>
+                <span>${{cart_total_amount}}</span>
+              </li>
+              <li>
+                <span>Vat 5%:</span>
+                <span>$4.5</span>
+              </li>
+              <li>
+                <span>Discount 20%:</span>
+                <span>- $18.9</span>
+              </li>
+              <li>
+                <span>Total:</span>
+                <span>${{cart_total_amount}}</span>
+              </li>
+            </ul>
+
+            <ul class="btns_group ul_li_block clearfix">
+              <li><a class="btn btn_primary" href="{% url "order:cart_detail" %}">View Cart</a></li>
+              <li><a class="btn btn_secondary" href="checkout.html">Checkout</a></li>
+            </ul>
+          </div>
+
+          <div class="cart_overlay"></div>
+        </div>
+        <!-- sidebar cart - end
+        ================================================== -->
+
+        <!-- breadcrumb_section - start
+        ================================================== -->
+        <div class="breadcrumb_section">
+          <div class="container">
+            <ul class="breadcrumb_nav ul_li">
+              <li><a href="{% url "product:index" %}">Home</a></li>
+              <li>Contact Us</li>
+            </ul>
+          </div>
+        </div>
+        <!-- breadcrumb_section - end
+        ================================================== -->
+
+        <!-- contact_section - start
+        ================================================== -->
+        <section class="contact_section section_space">
+          <div class="container">
+            <div class="row">
+
+              <div class="col col-lg-6 mx-auto">
+                <div class="contact_info_wrap">
+                  <h3 class="contact_title">Get in Touch & Inform Us</h3>
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  </p>
+                  <form method="post" class="ajax reload">
+                    {% csrf_token %}
+                    <div class="form_item">
+                      {{form.name}}
+                    </div>
+                    <div class="row">
+                      <div class="col col-md-6 col-sm-6">
+                        <div class="form_item">
+                          {{form.email}}
+                        </div>
+                      </div>
+                      <div class="col col-md-6 col-sm-6">
+                        <div class="form_item">
+                          {{form.subject}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form_item">
+                      {{form.message}}
+                    </div>
+                    <button type="submit" class="btn btn_primary">Send Message</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- contact_section - end
+        ================================================== -->
+
+      </main>
+      <!-- main body - end
+      ================================================== -->
+
+    </div>
+    <!-- body_wrap - end -->
+{% endblock  %}

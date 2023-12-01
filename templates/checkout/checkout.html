@@ -1,0 +1,240 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% load cart_tag %}
+{% block content %}
+    <!-- body_wrap - start -->
+    <div class="body_wrap">
+
+      <!-- backtotop - start -->
+      <div class="backtotop">
+        <a href="javascript:void(0)" class="scroll">
+          <i class="far fa-arrow-up"></i>
+        </a>
+      </div>
+      <!-- backtotop - end -->
+
+      <!-- preloader - start -->
+      <div id="preloader"></div>
+      <!-- preloader - end -->
+
+      <!-- main body - start
+      ================================================== -->
+      <main>
+
+        <!-- sidebar cart - start
+        ================================================== -->
+        <div class="sidebar-menu-wrapper">
+          <div class="cart_sidebar">
+            <button type="button" class="close_btn"><i class="fal fa-times"></i></button>
+
+            <ul class="cart_items_list ul_li_block mb_30 clearfix">
+              {% for key,value in request.session.cart.items %}
+              <li>
+                <div class="item_image">
+                  <img src="{{value.image}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                </div>
+                <div class="item_content">
+                  <h4 class="item_title">{{value.name}}</h4>
+                  <span class="item_price">${{value.price}}</span>
+                </div>
+                <a href="{% url "order:item_clear" key %}"><button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button></a>
+              </li>
+              {% endfor %}
+            </ul>
+
+            <ul class="total_price ul_li_block mb_30 clearfix">
+              <li>
+                <span>Subtotal:</span>
+                <span>${{cart_total_amount}}</span>
+              </li>
+              <li>
+                <span>Vat 5%:</span>
+                <span>$4.5</span>
+              </li>
+              <li>
+                <span>Discount 20%:</span>
+                <span>- $18.9</span>
+              </li>
+              <li>
+                <span>Total:</span>
+                <span>${{cart_total_amount}}</span>
+              </li>
+            </ul>
+
+            <ul class="btns_group ul_li_block clearfix">
+              <li><a class="btn btn_primary" href="{% url "order:cart_detail" %}">View Cart</a></li>
+              <li><a class="btn btn_secondary" href="checkout.html">Checkout</a></li>
+            </ul>
+          </div>
+
+          <div class="cart_overlay"></div>
+        </div>
+        <!-- sidebar cart - end
+        ================================================== -->
+
+        <!-- breadcrumb_section - start
+        ================================================== -->
+        <div class="breadcrumb_section">
+          <div class="container">
+            <ul class="breadcrumb_nav ul_li">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="{% url "order:cart_detail" %}">Cart</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- breadcrumb_section - end
+        ================================================== -->
+
+        <!-- checkout_section - start
+        ================================================== -->
+        <section class="checkout_section section_space">
+          <div class="container">
+            <form action="{% url 'order:checkout' %}" method="POST">
+              {% csrf_token %}
+              <div class="checkout_widget bg-light">
+                <h3 class="checkout_widget_title">Billing Details</h3>
+
+                <div class="row">
+                  <div class="col col-md-6 col-sm-6">
+                    <div class="form_item">
+                      <h4 class="input_title">First Name</h4>
+                      <input type="text" name="firstname" placeholder="First Name *">
+                    </div>
+                  </div>
+                  <div class="col col-md-6 col-sm-6">
+                    <div class="form_item">
+                      <h4 class="input_title">Last Name</h4>
+                      <input type="text" name="lastname" placeholder="Last Name *">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form_item">
+                  <h4 class="input_title">District</h4>
+                  <input type="text" name="district" placeholder="Your Company Name">
+                </div>
+
+                <div class="form_item">
+                  <h4 class="input_title">Address *</h4>
+                  <input type="text" name="streetaddress" placeholder="Street Address">
+                </div>
+
+                <div class="form_item">
+                  <h4 class="input_title">Town / City *</h4>
+                  <input type="text" name="town" placeholder="Town / City">
+                </div>
+
+                <div class="row">
+                  <div class="col col-md-6 col-sm-6">
+                    <div class="form_item">
+                      <h4 class="input_title">Country *</h4>
+                      <input type="text" name="country" placeholder="Country">
+                    </div>
+                  </div>
+                  <div class="col col-md-6 col-sm-6">
+                    <div class="form_item">
+                      <h4 class="input_title">Postcode / Zip *</h4>
+                      <input type="number" name="postcode" placeholder="Postcode / Zip">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form_item mb-5">
+                  <h4 class="input_title">Contact Info *</h4>
+                  <input type="email" name="email" placeholder="Email Address">
+                  <input type="tel" name="telephone" placeholder="Phone Number">
+                </div>
+
+              <div class="checkout_widget">
+                <h3 class="checkout_widget_title">Your Order</h3>
+                <div class="cart_table checkout_table">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>PRODUCT</th>
+                        <th>PRICE</th>
+                        <th>QUANTITY</th>
+                        <th>TOTLA</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for key,value in request.session.cart.items %}
+                      <tr>
+                        <td>
+                          <div class="cart_product">
+                            <img src="{{value.image}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                            <h3>{{value.name}}</h3>
+                          </div>
+                        </td>
+                        <td><span class="price_text">${{value.price}}</span></td>
+                        <td><strong class="quantity_count">{{value.quantity}}</strong></td>
+                        <td><span class="price_text">${{ value.price|multiply:value.quantity }}</span></td>
+                      </tr>
+                      {% endfor %}
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td><strong>Cart Subtotal</strong></td>
+                        <td><strong>{{cart_total_amount}}</strong></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td><strong>Shipping and Handling</strong></td>
+                        <td><strong class="free_text">Free</strong></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td><strong>Order Total</strong></td>
+                        <td><strong class="total_text">{{cart_total_amount}}</strong></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="checkout_payment_method">
+                <div class="load_more">
+                  <button type="submit" class="btn btn_primary w-100">Place Order</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </section>
+        <!-- checkout_section - end
+        ================================================== -->
+
+        <!-- newsletter_section - start
+        ================================================== -->
+        <section class="newsletter_section">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col col-lg-6">
+                <h2 class="newsletter_title text-white">
+                  <i class="icofont-paper-plane"></i>
+                  Sign Up for Newsletter
+                </h2>
+              </div>
+              <div class="col col-lg-6">
+                <form action="javascript:void(0)">
+                  <div class="newsletter_form">
+                    <input type="email" name="email" placeholder="Enter your email address">
+                    <button type="submit" class="btn btn_danger">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- newsletter_section - end
+        ================================================== -->
+
+      </main>
+      <!-- main body - end
+      ================================================== -->
+
+    </div>
+    <!-- body_wrap - end -->
+{% endblock  %}
+   
