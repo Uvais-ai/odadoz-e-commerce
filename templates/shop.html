@@ -325,14 +325,6 @@
                       {% endif %}
                       {% endfor %}
                     </ul>
-                    {% comment %} {% for category in categories %}
-                        <li>
-                          <a href="{% url "product:shop" %}?category={{category.slug}}"
-                             {% if selected_category == category %} class="active" {% endif %}>
-                            {{category.name }}<span>({{category.get_products.count}})</span>
-                          </a>
-                        </li>
-                      {% endfor %} {% endcomment %}
                   </div>
 
                   <div class="sb_widget">

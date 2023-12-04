@@ -72,7 +72,7 @@ def shop(request):
         products = products.filter(categories=selected_category)
     if brand_ids:
         products = products.filter(brands__slug__in=brand_ids)
-    if search:
+    if search:   
         products = products.filter(name__icontains=search)
     if min_price is not None and max_price is not None:
         products = products.filter(price__gte=min_price, price__lte=max_price)
