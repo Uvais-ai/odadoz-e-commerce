@@ -101,7 +101,6 @@
                     <th class="text-center">PRICE</th>
                     <th class="text-center">QUANTITY</th>
                     <th class="text-center">TOTLA</th>
-                    <th class="text-center">REMOVE</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -122,11 +121,6 @@
                           </form>
                       </td>
                       <td class="text-center"><span class="price_text">${{ item.total }}</span></td>
-                      <td class="text-center">
-                          <a href="{% url 'order:item_clear' id=item.id %}">
-                              <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>
-                          </a>
-                      </td>
                   </tr>
                   {% endfor %}
                 </tbody>

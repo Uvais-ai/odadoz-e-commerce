@@ -26,7 +26,6 @@ def index(request):
     big_sale = Product.objects.filter(is_popular=True)[:8]
     
     if request.user.is_authenticated:
-        # Your existing logic to get wishlist items for the current user
         wishlist_items = Wishlist.objects.filter(user=request.user)
         wishlist_items_count = wishlist_items.count()
     else:
@@ -55,7 +54,6 @@ def shop(request):
     selected_category = None
 
     if request.user.is_authenticated:
-        # Your existing logic to get wishlist items for the current user
         wishlist_items = Wishlist.objects.filter(user=request.user)
         wishlist_items_count = wishlist_items.count()
     else:
@@ -99,27 +97,24 @@ def shop(request):
         products = products.filter(
             **{write_name_ishtam: True}
         )
-    paginator = Paginator(products, 8)  # Show 5 products per page
+    paginator = Paginator(products, 8) 
     page_number = request.GET.get('page') 
     onefinal = paginator.get_page(page_number)
-    total_pages = onefinal.paginator.num_pages  # Total number of pages
+    total_pages = onefinal.paginator.num_pages  
     
-
     context = {
         "categories": categories,
-        "products": onefinal, # Use paginated result
+        "products": onefinal,
         "selected_category": selected_category,
         'all_categories': Category.objects.all(),
         'brands': brands,
         'brand_ids': brand_ids,
         'wishlist_items_count': wishlist_items_count,
-
         'ishtam_view': write_name_ishtam,
-        'post': onefinal,  # Use paginated result
+        'post': onefinal, 
         'lastpage': total_pages,
         'totalpagelist': [n + 1 for n in range(total_pages)],
     }
-
     return render(request, "shop.html", context)
 
 
@@ -134,7 +129,6 @@ class ShopDetailView(DetailView):
         context = super().get_context_data(**kwargs)
 
         if self.request.user.is_authenticated:
-            # Your existing logic to get wishlist items for the current user
             wishlist_items = Wishlist.objects.filter(user=self.request.user)
             wishlist_items_count = wishlist_items.count()
         else:
@@ -158,7 +152,6 @@ def filter_data(request):
     context  = {
         'products': product
     }
-
     t = render_to_string('ajax/shop.html', context)
     return JsonResponse({'data': t})
 

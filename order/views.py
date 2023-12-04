@@ -52,10 +52,7 @@ def cart_clear(request):
 
 @login_required(login_url="auth_login")
 def cart_detail(request):
-    # Your existing logic to get wishlist items for the current user
     wishlist_items = Wishlist.objects.filter(user=request.user)
-
-    # Count the number of wishlist items
     wishlist_items_count = wishlist_items.count()
 
     context = {
@@ -72,7 +69,6 @@ def checkout(request):
         user = User.objects.get(id=uid)
         cart = request.session.get('cart')
 
-        # Get form data
         firstname = request.POST.get('firstname')
         lastname = request.POST.get('lastname')
         district = request.POST.get('district')
@@ -83,13 +79,10 @@ def checkout(request):
         email = request.POST.get('email')
         telephone = request.POST.get('telephone')
 
-        # Check if required fields are not None
         if any(field is None for field in [firstname, lastname, district, address, town, country, postcode, email, telephone]):
-            # Handle the case where required fields are not provided
             messages.error(request, "Please fill in all the required fields.")
             return redirect('product:index')
 
-        # Create Order instance
         order_1 = Order(
             user=user,
             firstname=firstname,
@@ -102,23 +95,18 @@ def checkout(request):
             email=email,
             telephone=telephone,
         )
-
         order_1.save()
 
-        # Create Order_Item instances
         for i in cart:
             a = float(cart[i]['price'])
             b = int(cart[i]['quantity'])
             total = a * b
 
             product_name = cart[i]['name']
-
-            # Retrieve the product instance based on the product name
             product = Product.objects.get(name=product_name)
-
             order_item = Order_Item(
                 order=order_1,
-                product=product,  # Use the product field instead of product_name
+                product=product,  
                 product_name=product_name,
                 image=cart[i]['image'],
                 price=cart[i]['price'],
@@ -127,48 +115,52 @@ def checkout(request):
             )
             order_item.save()
 
-
-        # Clear the cart after the order is placed
         request.session['cart'] = {}
-
         messages.success(request, "Order placed successfully!")
         return redirect("product:index")
-
-    return render(request, 'checkout/checkout.html')
+    
+    wishlist_items = Wishlist.objects.filter(user=request.user)
+    wishlist_items_count = wishlist_items.count()
+    
+    context = {
+        'wishlist_items': wishlist_items,
+        'wishlist_items_count': wishlist_items_count,
+        'all_categories': Category.objects.all(),
+    }
+    return render(request, 'checkout/checkout.html', context)
 
 
 def your_order(request):
+    wishlist_items = Wishlist.objects.filter(user=request.user)
+    wishlist_items_count = wishlist_items.count()
+
     if request.user.is_authenticated:
         uid = request.user.id
         user = User.objects.get(id=uid)
         orders = Order.objects.filter(user=user)
         order_items = Order_Item.objects.filter(order__in=orders)
     else:
-        # Handle the case when the user is not authenticated
         order_items = []
 
     context = {
         'order_items': order_items,
+        'all_categories': Category.objects.all(),
+        'wishlist_items_count': wishlist_items_count,
+        'wishlist_items': wishlist_items,
     }
     return render(request, 'order.html', context)
 
 
 @login_required(login_url="auth_login")
 def wishlist(request):
-    # Your existing logic to get wishlist items for the current user
     wishlist_items = Wishlist.objects.filter(user=request.user)
-
-    # Count the number of wishlist items
     wishlist_items_count = wishlist_items.count()
 
-    # Your other context data
     context = {
         'wishlist_items': wishlist_items,
         'wishlist_items_count': wishlist_items_count,
         'all_categories': Category.objects.all(),
-        # Other context data...
     }
-
     return render(request, 'wishlist.html', context)
 
 
@@ -176,7 +168,6 @@ def wishlist(request):
 def add_to_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
-    # Check if the product is not already in the wishlist
     if not Wishlist.objects.filter(user=request.user, product=product).exists():
         wishlist_item = Wishlist(user=request.user, product=product, price=product.price)
         wishlist_item.save()
@@ -191,7 +182,6 @@ def add_to_wishlist(request, product_id):
 def remove_from_wishlist(request, item_id):
     wishlist_item = get_object_or_404(Wishlist, id=item_id)
 
-    # Check if the user trying to remove the item is the owner
     if wishlist_item.user == request.user:
         wishlist_item.delete()
         messages.success(request, f"{wishlist_item.product.name} removed from your wishlist!")
