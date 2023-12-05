@@ -29,7 +29,6 @@ var isLoading = false;
                         Swal.fire({
                             title: title,
                             html: message,
-             
                         }).then(function () {
                             redirect && (window.location.href = redirect_url), reload && window.location.reload(), reset && window.location.reset();
                         });
@@ -38,7 +37,6 @@ var isLoading = false;
                         Swal.fire({
                             title: title,
                             html: message,
-           
                         });
                     }
                 },
@@ -48,7 +46,6 @@ var isLoading = false;
                     Swal.fire({
                         title: title,
                         html: message,
-                     
                     });
                 },
             }).then(function (response) {
@@ -56,3 +53,22 @@ var isLoading = false;
             });
         }
     });
+
+
+    // checkout Add SweetAlert on form submission
+    document.getElementById('addressForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+        
+        // You can customize the SweetAlert options according to your needs
+        Swal.fire({
+            title: 'Success!',
+            text: 'Address added successfully.',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Proceed with the form submission
+                document.getElementById('addressForm').submit();
+            }
+        });
+      });

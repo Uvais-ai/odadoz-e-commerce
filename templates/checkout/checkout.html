@@ -89,7 +89,7 @@
         ================================================== -->
         <section class="checkout_section section_space">
           <div class="container">
-            <form action="{% url 'order:checkout' %}" method="POST">
+            <form action="{% url 'order:checkout' %}" method="POST" id="addressForm">
               {% csrf_token %}
               <div class="checkout_widget bg-light">
                 <h3 class="checkout_widget_title">Billing Details</h3>
@@ -98,51 +98,51 @@
                   <div class="col col-md-6 col-sm-6">
                     <div class="form_item">
                       <h4 class="input_title">First Name</h4>
-                      <input type="text" name="firstname" placeholder="First Name *">
+                      <input type="text" name="firstname" placeholder="First Name *" required>
                     </div>
                   </div>
                   <div class="col col-md-6 col-sm-6">
                     <div class="form_item">
                       <h4 class="input_title">Last Name</h4>
-                      <input type="text" name="lastname" placeholder="Last Name *">
+                      <input type="text" name="lastname" placeholder="Last Name *" required>
                     </div>
                   </div>
                 </div>
 
                 <div class="form_item">
                   <h4 class="input_title">District</h4>
-                  <input type="text" name="district" placeholder="Your Company Name">
+                  <input type="text" name="district" placeholder="Your Company Name" required>
                 </div>
 
                 <div class="form_item">
                   <h4 class="input_title">Address *</h4>
-                  <input type="text" name="streetaddress" placeholder="Street Address">
+                  <input type="text" name="streetaddress" placeholder="Street Address" required>
                 </div>
 
                 <div class="form_item">
                   <h4 class="input_title">Town / City *</h4>
-                  <input type="text" name="town" placeholder="Town / City">
+                  <input type="text" name="town" placeholder="Town / City" required>
                 </div>
 
                 <div class="row">
                   <div class="col col-md-6 col-sm-6">
                     <div class="form_item">
                       <h4 class="input_title">Country *</h4>
-                      <input type="text" name="country" placeholder="Country">
+                      <input type="text" name="country" placeholder="Country" required>
                     </div>
                   </div>
                   <div class="col col-md-6 col-sm-6">
                     <div class="form_item">
                       <h4 class="input_title">Postcode / Zip *</h4>
-                      <input type="number" name="postcode" placeholder="Postcode / Zip">
+                      <input type="number" name="postcode" placeholder="Postcode / Zip" required>
                     </div>
                   </div>
                 </div>
 
                 <div class="form_item mb-5">
                   <h4 class="input_title">Contact Info *</h4>
-                  <input type="email" name="email" placeholder="Email Address">
-                  <input type="tel" name="telephone" placeholder="Phone Number">
+                  <input type="email" name="email" placeholder="Email Address" required>
+                  <input type="tel" name="telephone" placeholder="Phone Number" required>
                 </div>
 
               <div class="checkout_widget">

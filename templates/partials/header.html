@@ -48,6 +48,8 @@
                       <li><a href="{% url 'auth_login' %}">Login</a></li>
                       <li><a href="{% url 'registration_register' %}">Register</a></li>
                       {% endif %}
+                      <h5>{{request.user.username}}</h5>
+                      <h5>{{request.user.email}}</h5>
                     </ul>
                   </li>
                   <li><a href="{% url "order:order" %}"><i class="fa-solid fa-box-archive fa-sm"></i></a></li>
