@@ -192,8 +192,17 @@ def remove_from_wishlist(request, item_id):
     return redirect("order:wishlist")
 
 
+@login_required(login_url="auth_login")
 def account(request):
-    return render(request, 'account.html')
+    wishlist_items = Wishlist.objects.filter(user=request.user)
+    wishlist_items_count = wishlist_items.count()
+
+    context = {
+        'wishlist_items': wishlist_items,
+        'wishlist_items_count': wishlist_items_count,
+        'all_categories': Category.objects.all(),
+    }
+    return render(request, 'account.html', context)
 
 
 
