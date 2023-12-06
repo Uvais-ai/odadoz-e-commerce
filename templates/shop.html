@@ -331,14 +331,14 @@
                     <div class="filter_sidebar">
  
                       <div class="fs_widget">
-                        <h3 class="fs_widget_title">Manufacturer</h3>
+                        <h3 class="fs_widget_title">Brand</h3>
                         <form id="filterForm" method="get">           
                           <ul class="fs_brand_list ul_li_block">
                             <li>
                               {% for brand in brands %}
                               <div class="checkbox_item">
                                 <input type="checkbox" name="brand" data-filter="brand" id="{{brand.slug}}" value="{{brand.slug}}" class="filter-checkbox">          
-                                <label for="{{brand.slug}}">{{brand.name}} <span>(19)</span></label>
+                                <label for="{{brand.slug}}">{{brand.name}} <span>({{brand.get_products.count}})</span></label>
                               </div>
                               {% endfor %}
                             </li>

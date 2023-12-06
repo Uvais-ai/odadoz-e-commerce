@@ -27,6 +27,9 @@ class Brand(models.Model):
         verbose_name_plural = ("Brand")
         ordering = ("name",)
 
+    def get_products(self):
+        return Product.objects.filter(brands=self)
+
     def __str__(self):
         return str(self.name)
     

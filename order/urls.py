@@ -15,10 +15,12 @@ urlpatterns = [
     path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
     path('cart/cart-detail/',views.cart_detail,name='cart_detail'),
     path('checkout',views.checkout,name='checkout'),
-    path('order/',views.your_order,name='order'),
     # wishlist
     path('wishlist/', wishlist, name='wishlist'),
     path('add_to_wishlist/<int:product_id>/', add_to_wishlist, name='add_to_wishlist'),
     path('remove_from_wishlist/<int:item_id>/', remove_from_wishlist, name='remove_from_wishlist'),
+    #account
+    path("account", views.account, name="account"),
+    path('order/',views.your_order,name='order'),
 ]
 

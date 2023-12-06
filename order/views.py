@@ -130,6 +130,7 @@ def checkout(request):
     return render(request, 'checkout/checkout.html', context)
 
 
+@login_required(login_url="auth_login")
 def your_order(request):
     wishlist_items = Wishlist.objects.filter(user=request.user)
     wishlist_items_count = wishlist_items.count()
@@ -189,6 +190,10 @@ def remove_from_wishlist(request, item_id):
         messages.error(request, "You are not authorized to remove this item from the wishlist.")
 
     return redirect("order:wishlist")
+
+
+def account(request):
+    return render(request, 'account.html')
 
 
 
