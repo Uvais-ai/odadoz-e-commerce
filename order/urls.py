@@ -22,5 +22,8 @@ urlpatterns = [
     #account
     path("account", views.account, name="account"),
     path('order/',views.your_order,name='order'),
+    #profile update
+    path('profile/',views.profile,name='profile'),
+    path('profile/update',views.profile_update,name='profile_update'),
 ]
 

@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from .models import Wishlist
 from product.models import Category
-
+from .models import UserProfile
 
 # Create your views here.
 @login_required(login_url="auth_login")
@@ -205,11 +205,38 @@ def account(request):
     return render(request, 'account.html', context)
 
 
+def profile(request):
+    userprofile = UserProfile.objects.get(user=request.user)
+    context = {
+        'user' : userprofile,
+    }
+    return render(request, 'profile.html', context)
 
 
+def profile_update(request):
+    try:
+        user_profile = request.user.userprofile
+    except UserProfile.DoesNotExist:
+        user_profile = UserProfile(user=request.user)
+        user_profile.save()
 
+    if request.method == 'POST':
+        # Update other fields
+        user_profile.first_name = request.POST.get('first_name', '')
+        user_profile.last_name = request.POST.get('last_name', '')
+        user_profile.bio_data = request.POST.get('bio_data', '')
+        user_profile.email = request.POST.get('email', '')
 
+        profile_pic = request.FILES.get('profile_pic')
+        if profile_pic:
+            user_profile.profile_pic = profile_pic
 
+        user_profile.save()
+        messages.success(request, 'Profile updated successfully!')
+        return redirect('order:profile')
 
+    context = {
+        'user_profile': user_profile,
+    }
 
-
+    return render(request, 'profile.html', context)

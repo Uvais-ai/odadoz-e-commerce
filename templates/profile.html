@@ -1,0 +1,40 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% load product_tags %}
+{% block content %}
+<div class="container mt-5">
+    <h5>Profile Update</h5>
+    <form method="post" action="{% url 'order:profile_update' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+    <div class="mb-3 mt-4">
+        <label for="exampleInputName" class="form-label">Profile Pic</label>
+        <input type="file" class="form-control" id="exampleInputName" name="profile_pic">
+    </div>
+      <div class="mb-3">
+        <label for="exampleInputName" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="exampleInputName" name="first_name" value="{{user_profile.first_name}}">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputName" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="exampleInputName" name="last_name" value="{{user_profile.last_name}}">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputName" class="form-label">Username</label>
+        <input type="text" class="form-control" id="exampleInputName" name="username" value="{{ user_profile.user.username }}">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail" class="form-label">Bio data</label>
+        <input type="text" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" name="bio_data">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail" class="form-label">Email</label>
+        <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" name="email" value="{{user_profile.email}}">
+      </div>
+      {% comment %} <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck">
+        <label class="form-check-label" for="exampleCheck">Check me out</label>
+      </div> {% endcomment %}
+      <button type="submit" class="btn btn-danger">Update Profile</button>
+    </form>
+  </div>
+{% endblock  %}

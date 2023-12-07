@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from product.models import Product
 
+
 # Create your models here.
 class Order(models.Model):  
     user=models.ForeignKey(User,on_delete=models.CASCADE)
@@ -49,3 +50,15 @@ class Wishlist(models.Model):
         unique_together = ("user", "product")
         verbose_name = "Wishlist Item"
         verbose_name_plural = "Wishlist Items"
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_pic = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
+    bio_data = models.TextField(blank=True)
+    email = models.EmailField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.user.username
