@@ -207,9 +207,14 @@ def account(request):
 
 @login_required(login_url="auth_login")
 def profile(request):
-    userprofile = UserProfile.objects.get(user=request.user)
+    try:
+        user_profile = request.user.userprofile
+    except UserProfile.DoesNotExist:
+        user_profile = UserProfile(user=request.user)
+        user_profile.save()
+
     context = {
-        'user' : userprofile,
+        'user_profile': user_profile,
     }
     return render(request, 'profile.html', context)
 

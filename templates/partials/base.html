@@ -7,7 +7,7 @@
   	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   	<meta http-equiv="x-ua-compatible" content="ie=edge">
-  	{% comment %} <title>{% block tittle %}Home{% endblock  %}</title> {% endcomment %}
+    <title>{% block title %}{% endblock %}| Odadoz</title>
   	<link rel="shortcut icon" href="{% static 'assets/images/logo/favourite_icon.svg' %}">
 
   	<!-- fraimwork - css include -->
@@ -56,7 +56,6 @@
     
     {% endblock  %}
     {% include "partials/footer.html" %}
-    {% block script %} {% endblock  %}
 
     <!-- fraimwork - jquery include -->
     <script src="{% static 'assets/js/jquery.min.js' %}"></script>
