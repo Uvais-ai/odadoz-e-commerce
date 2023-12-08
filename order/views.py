@@ -108,7 +108,7 @@ def checkout(request):
                 order=order_1,
                 product=product,  
                 product_name=product_name,
-                image=cart[i]['image'],
+                image=product.image, 
                 price=cart[i]['price'],
                 quantity=cart[i]['quantity'],
                 total=total
@@ -205,6 +205,7 @@ def account(request):
     return render(request, 'account.html', context)
 
 
+@login_required(login_url="auth_login")
 def profile(request):
     userprofile = UserProfile.objects.get(user=request.user)
     context = {
@@ -213,6 +214,7 @@ def profile(request):
     return render(request, 'profile.html', context)
 
 
+@login_required(login_url="auth_login")
 def profile_update(request):
     try:
         user_profile = request.user.userprofile

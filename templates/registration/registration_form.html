@@ -17,7 +17,6 @@
             </div>
             <div class="col-lg-6 col-md-8 col-6">
                 <nav class="main_menu navbar navbar-expand-lg">
-                    <!-- Add any menu items here if needed -->
                 </nav>
             </div>
             <div class="col-lg-3 col-md-12 mt-3 mt-lg-0 d-flex justify-content-between">
@@ -29,15 +28,17 @@
 </div>
 
 <section class="register-section">
-    <div class="container mt-5">
-        <div class="row justify-content-center">
+    <div class="container mt-4 shadow p-3 mb-5 bg-body rounded p-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-lg-6">
                 <div class="text-center">
-                    <img src="{% static 'assets/images/cart/cart_img_1.webp' %}" alt="Registration Image" class="img-fluid" style="max-width: 80%;">
+                    <img src="{% static 'assets/images/login/Mobile login-bro (1).png' %}" alt="Registration Image" class="img-fluid" style="max-width: 90%;">
                 </div>
             </div>
             <div class="col-lg-6">
-                <form method="post" action="#">
+                <h3>Get Start Shopping</h3>
+                <p>Welcome back to odadoz! Enter your email to get started.</p>
+                <form method="post" action="" class="mt-4">
                     {% csrf_token %}
                     {{ form|crispy }}
                     <button type="submit" style="background:#d90000;" class="btn mt-3">{% trans 'Register' %}</button>
