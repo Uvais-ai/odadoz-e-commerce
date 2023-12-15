@@ -1,8 +1,8 @@
 {% extends "partials/base.html" %}
 {% load static %}
-{% block content %}
-{% load product_tags %}
 {% block title %} Shop {% endblock  %}
+{% load product_tags %}
+{% block content %}
 {% block script %} 
     <script>
         $(document).ready(function () {
@@ -55,11 +55,6 @@
       </div>
       <!-- backtotop - end -->
 
-      <!-- preloader - start -->
-      <div id="preloader"></div>
-      <!-- preloader - end -->
-
-
       <!-- main body - start
       ================================================== -->
       <main>
@@ -106,7 +101,7 @@
 
             <ul class="btns_group ul_li_block clearfix">
               <li><a class="btn btn_primary" href="{% url "order:cart_detail" %}">View Cart</a></li>
-              <li><a class="btn btn_secondary" href="checkout.html">Checkout</a></li>
+              <li><a class="btn btn_secondary" href="{% url "order:checkout" %}">Checkout</a></li>
             </ul>
           </div>
 
@@ -143,13 +138,14 @@
                           </p>
                           <div class="item_review">
                             <ul class="rating_star ul_li">
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
+                              {% for star in "12345" %}
+                                  {% if star|add:0 <= product.rating %}
+                                      <li><i class="fa-solid fa-star"></i></li>
+                                  {% else %}
+                                      <li><i class="fa-regular fa-star"></i></li>
+                                  {% endif %}
+                              {% endfor %}
                             </ul>
-                            <span class="review_value">3 Rating(s)</span>
                           </div>
                           <div class="item_price">
                             <span>₹ {% call_sellprice product.price product.discount %}</span>&nbsp;&nbsp;<del>{{product.price}}</del>
@@ -159,7 +155,6 @@
 
                           <ul class="default_btns_group ul_li">
                             <li><a class="addtocart_btn" href="{% url 'order:cart_add' product.id %}">Add To Cart</a></li>
-                            <li><a href="javascript:void(0)"><i class="fa-solid fa-arrows-rotate"></i></a></li>
                             <li><a href="{% url 'order:add_to_wishlist' product_id=product.id %}"><i class="fas fa-heart"></i></a></li>
                           </ul>
 
@@ -264,7 +259,6 @@
                           </div>
                           <ul class="item_btns_group ul_li">
                             <li><a class="addtocart_btn" href="{{product.get_absolute_url}}">Add To Cart</a></li>
-                            <li><a href="javascript:void(0)"><i class="fa-solid fa-arrows-rotate"></i></a></li>
                             <li><a href="{% url 'order:add_to_wishlist' product_id=product.id %}"><i class="fas fa-heart"></i></a></li>
                           </ul>
                         </div>

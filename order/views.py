@@ -9,6 +9,8 @@ from django.shortcuts import get_object_or_404
 from .models import Wishlist
 from product.models import Category
 from .models import UserProfile
+from django.http import JsonResponse
+
 
 # Create your views here.
 @login_required(login_url="auth_login")
@@ -16,7 +18,7 @@ def cart_add(request, id):
     cart = Cart(request)
     product = Product.objects.get(id=id)
     cart.add(product=product)
-    return redirect("order:cart_detail")
+    return redirect("product:index")
 
 
 @login_required(login_url="auth_login")
@@ -172,11 +174,15 @@ def add_to_wishlist(request, product_id):
     if not Wishlist.objects.filter(user=request.user, product=product).exists():
         wishlist_item = Wishlist(user=request.user, product=product, price=product.price)
         wishlist_item.save()
-        messages.success(request, f"{product.name} added to your wishlist!")
+        messages.success(request, f"Item added to your wishlist successfully!")
     else:
-        messages.info(request, f"{product.name} is already in your wishlist.")
+        messages.info(request, f"Item is already in your wishlist.")
+
+    if request.is_ajax():
+        return JsonResponse({'message': 'Item added to wishlist successfully'})
 
     return redirect("product:index")
+
 
 
 @login_required(login_url="auth_login")
@@ -212,9 +218,14 @@ def profile(request):
     except UserProfile.DoesNotExist:
         user_profile = UserProfile(user=request.user)
         user_profile.save()
+    wishlist_items = Wishlist.objects.filter(user=request.user)
+    wishlist_items_count = wishlist_items.count()
+
 
     context = {
         'user_profile': user_profile,
+        'wishlist_items': wishlist_items,
+        'wishlist_items_count': wishlist_items_count,
     }
     return render(request, 'profile.html', context)
 

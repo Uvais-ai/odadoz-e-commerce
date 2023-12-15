@@ -1,41 +1,88 @@
 {% extends "partials/base.html" %}
 {% load static %}
 {% load product_tags %}
-{% block content %}
 {% block title %} Profile {% endblock  %}
-<div class="container mt-5">
-    <h5>Profile Update</h5>
-    <form method="post" action="{% url 'order:profile_update' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-    <div class="mb-3 mt-4">
-        <label for="exampleInputName" class="form-label">Profile Pic</label>
-        <input type="file" class="form-control" id="exampleInputName" name="profile_pic">
-    </div>
-      <div class="mb-3">
-        <label for="exampleInputName" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="exampleInputName" name="first_name" value="{{request.user.userprofile.first_name}}">
-      </div>
-      <div class="mb-3">
-        <label for="exampleInputName" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="exampleInputName" name="last_name" value="{{request.user.userprofile.last_name}}">
-      </div>
-      <div class="mb-3">
-        <label for="exampleInputName" class="form-label">Username</label>
-        <input type="text" class="form-control" id="exampleInputName" name="username" value="{{request.user.username}}">
-      </div>
-      <div class="mb-3">
-        <label for="exampleInputEmail" class="form-label">admin</label>
-        <input type="text" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" name="bio_data" value="{{request.user.admin}}">
-      </div>
-      <div class="mb-3">
-        <label for="exampleInputEmail" class="form-label">Email</label>
-        <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" name="email" value="{{request.user.email}}">
-      </div>
-      {% comment %} <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck">
-        <label class="form-check-label" for="exampleCheck">Check me out</label>
-      </div> {% endcomment %}
-      <button type="submit" class="btn btn-danger">Update Profile</button>
-    </form>
-  </div>
+{% block content %}
+      <!-- sidebar cart - start
+        ================================================== -->
+        <div class="sidebar-menu-wrapper">
+          <div class="cart_sidebar">
+            <button type="button" class="close_btn"><i class="fal fa-times"></i></button>
+
+            <ul class="cart_items_list ul_li_block mb_30 clearfix">
+              {% for key,value in request.session.cart.items %}
+              <li>
+                <div class="item_image">
+                  <img src="{{value.image}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                </div>
+                <div class="item_content">
+                  <h4 class="item_title">{{value.name}}</h4>
+                  <span class="item_price">${{value.price}}</span>
+                </div>
+                <a href="{% url "order:item_clear" key %}"><button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button></a>
+              </li>
+              {% endfor %}
+            </ul>
+
+            <ul class="total_price ul_li_block mb_30 clearfix">
+              <li>
+                <span>Subtotal:</span>
+                <span>${{cart_total_amount}}</span>
+              </li>
+              <li>
+                <span>Vat 5%:</span>
+                <span>$4.5</span>
+              </li>
+              <li>
+                <span>Discount 20%:</span>
+                <span>- $18.9</span>
+              </li>
+              <li>
+                <span>Total:</span>
+                <span>${{cart_total_amount}}</span>
+              </li>
+            </ul>
+
+            <ul class="btns_group ul_li_block clearfix">
+              <li><a class="btn btn_primary" href="{% url "order:cart_detail" %}">View Cart</a></li>
+              <li><a class="btn btn_secondary" href="{% url "order:checkout" %}">Checkout</a></li>
+            </ul>
+          </div>
+
+          <div class="cart_overlay"></div>
+        </div>
+        <!-- sidebar cart - end
+        ================================================== -->
+
+        <div class="container mt-5">
+            <h5>Profile Update</h5>
+            <form method="post" action="{% url 'order:profile_update' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="mb-3 mt-4">
+                <label for="exampleInputName" class="form-label">Profile Pic</label>
+                <input type="file" class="form-control" id="exampleInputName" name="profile_pic">
+            </div>
+              <div class="mb-3">
+                <label for="exampleInputName" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="exampleInputName" name="first_name" value="{{request.user.userprofile.first_name}}">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputName" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="exampleInputName" name="last_name" value="{{request.user.userprofile.last_name}}">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputName" class="form-label">Username</label>
+                <input type="text" class="form-control" id="exampleInputName" name="username" value="{{request.user.username}}">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail" class="form-label">admin</label>
+                <input type="text" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" name="bio_data" value="{{request.user.admin}}">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" name="email" value="{{request.user.email}}">
+              </div>
+              <button type="submit" class="btn btn-danger">Update Profile</button>
+            </form>
+          </div>
 {% endblock  %}

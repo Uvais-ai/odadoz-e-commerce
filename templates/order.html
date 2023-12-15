@@ -1,8 +1,8 @@
 {% extends "partials/base.html" %}
 {% load static %}
 {% load cart_tag %}
-{% block content %}
 {% block title %} Order {% endblock  %}
+{% block content %}
     <!-- body_wrap - start -->
     <div class="body_wrap">
 
@@ -13,10 +13,6 @@
         </a>
       </div>
       <!-- backtotop - end -->
-
-      <!-- preloader - start -->
-      <div id="preloader"></div>
-      <!-- preloader - end -->
 
       <!-- main body - start
       ================================================== -->
@@ -64,7 +60,7 @@
 
             <ul class="btns_group ul_li_block clearfix">
               <li><a class="btn btn_primary" href="{% url "order:cart_detail" %}">View Cart</a></li>
-              <li><a class="btn btn_secondary" href="checkout.html">Checkout</a></li>
+              <li><a class="btn btn_secondary" href="{% url "order:checkout" %}">Checkout</a></li>
             </ul>
           </div>
 
@@ -78,7 +74,7 @@
         <div class="breadcrumb_section">
           <div class="container">
             <ul class="breadcrumb_nav ul_li">
-              <li><a href="index.html">Home</a></li>
+              <li><a href="{% url "product:index" %}">Home</a></li>
               <li><a href="{% url "order:cart_detail" %}">Cart</a></li>
             </ul>
           </div>

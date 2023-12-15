@@ -1,8 +1,8 @@
 {% extends "partials/base.html" %}
 {% load static %}
 {% load product_tags %}
-{% block content %}
 {% block title %} Account {% endblock  %}
+{% block content %}
     <!-- body_wrap - start -->
     <div class="body_wrap">
 
@@ -13,10 +13,6 @@
         </a>
       </div>
       <!-- backtotop - end -->
-
-      <!-- preloader - start -->
-      <div id="preloader"></div>
-      <!-- preloader - end -->
 
       <!-- main body - start
       ================================================== -->
@@ -64,7 +60,7 @@
 
             <ul class="btns_group ul_li_block clearfix">
               <li><a class="btn btn_primary" href="{% url "order:cart_detail" %}">View Cart</a></li>
-              <li><a class="btn btn_secondary" href="checkout.html">Checkout</a></li>
+              <li><a class="btn btn_secondary" href="{% url "order:checkout" %}">Checkout</a></li>
             </ul>
           </div>
 
@@ -96,7 +92,6 @@
                   <h2 class="title_text">My Account</h2>
                   <ul class="account_menu_list ul_li_block">
                     <li class="active"><a href="javascript:void(0)">Account Dashboard</a></li>
-                    <li><a href="{% url "order:checkout" %}">Address Book</a></li>
                     <li><a href="{% url "order:order" %}" class="align-items-center d-flex">My Orders<i class="fa-solid fa-box-archive ms-auto"></i></a></li>
                     <li><a href="{% url "order:wishlist" %}" class="align-items-center d-flex">My Wishlist<i class="fa-solid fa-heart ms-auto"></i></a></li>
                     <li><a href="{% url 'auth_logout' %}" class="align-items-center d-flex">Logout<i class="fa-solid fa-right-from-bracket ms-auto"></i></a></li>

@@ -38,6 +38,9 @@ def contact(request):
 
 
 def about(request):
-    return render(request, "about.html")
+    context =  {
+        'all_categories': Category.objects.all(),
+    }
+    return render(request, "about.html", context)
 
 

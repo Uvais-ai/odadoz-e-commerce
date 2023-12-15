@@ -1,6 +1,26 @@
 {% load static %}
 <!-- header_section - start
       ================================================== -->
+      {% if messages %}
+        <div class="container mt-3 d-flex justify-content-center">
+          <div class="w-100 text-center">
+            {% for message in messages %}
+              {% if 'success-border' in message.tags %}
+                <div class="alert alert-success alert-dismissible fade show border-success" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% else %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
       <header class="header_section">
         <div class="header_middle">
           <div class="container">

@@ -2,8 +2,8 @@
 {% load static %}
 {% load cart_tag %}
 {% load product_tags %}
-{% block content %}
 {% block title %} Shop Detail {% endblock  %}
+{% block content %}
     <!-- body_wrap - start -->
     <div class="body_wrap">
 
@@ -14,10 +14,6 @@
         </a>
       </div>
       <!-- backtotop - end -->
-
-      <!-- preloader - start -->
-      <div id="preloader"></div>
-      <!-- preloader - end -->
 
       <!-- main body - start
       ================================================== -->
@@ -65,7 +61,7 @@
 
             <ul class="btns_group ul_li_block clearfix">
               <li><a class="btn btn_primary" href="{% url "order:cart_detail" %}">View Cart</a></li>
-              <li><a class="btn btn_secondary" href="checkout.html">Checkout</a></li>
+              <li><a class="btn btn_secondary" href="{% url "order:checkout" %}">Checkout</a></li>
             </ul>
           </div>
 
@@ -107,7 +103,6 @@
                               <li><i class="fa-solid fa-star"></i></li>
                               <li><i class="fa-solid fa-star"></i></li>
                             </ul>
-                            <span class="review_value">3 Rating(s)</span>
                           </div>
                           <div class="item_price">
                             <span>$620.00</span>
@@ -262,7 +257,6 @@
                           {% endif %}
                       {% endfor %}
                     </ul>
-                    <span class="review_value">3 Rating(s)</span>
                   </div>
                   <div class="item_price">
                     <span>₹ {% call_sellprice product.price product.discount %}</span>&nbsp;&nbsp;<del>{{product.price}}</del>
@@ -272,7 +266,6 @@
 
                   <ul class="default_btns_group ul_li">
                     <li><a class="addtocart_btn" href="{% url 'order:cart_add' product.id %}">Add To Cart</a></li>
-                    <li><a href="javascript:void(0)"><i class="fa-solid fa-arrows-rotate"></i></a></li>
                     <li><a href="{% url 'order:add_to_wishlist' product_id=product.id %}"><i class="fas fa-heart"></i></a></li>
                   </ul>
                 </div>
@@ -289,11 +282,6 @@
                 <li role="presentation">
                   <button data-bs-toggle="tab" data-bs-target="#additional_information_tab" type="button" role="tab" aria-controls="additional_information_tab" aria-selected="false">
                     Additional information
-                  </button>
-                </li>
-                <li role="presentation">
-                  <button data-bs-toggle="tab" data-bs-target="#reviews_tab" type="button" role="tab" aria-controls="reviews_tab" aria-selected="false">
-                    Reviews(2)
                   </button>
                 </li>
               </ul>
@@ -331,164 +319,6 @@
                   </div>
                 </div>
 
-                <div class="tab-pane fade" id="reviews_tab" role="tabpanel">
-                  <div class="average_area">
-                    <h4 class="reviews_tab_title">Average Ratings</h4>
-                    <div class="row align-items-center">
-                      <div class="col-md-5 order-last">
-                        <div class="average_rating_text">
-                          <ul class="rating_star ul_li_center">
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star-half-alt"></i></li>
-                          </ul>
-                          <p class="mb-0">
-                            Average Star Rating: <span>4.5 out of 5</span> (2 vote)
-                          </p>
-                        </div>
-                      </div>
-                      <div class="col-md-7">
-                        <div class="product_ratings_progressbar">
-                          <ul class="five_star ul_li">
-                            <li><span>5 Star</span></li>
-                            <li><div class="progress_bar"></div></li>
-                            <li>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                            </li>
-                          </ul>
-                          <ul class="four_star ul_li">
-                            <li><span>4 Star</span></li>
-                            <li><div class="progress_bar"></div></li>
-                            <li>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                            </li>
-                          </ul>
-                          <ul class="three_star ul_li">
-                            <li><span>3 Star</span></li>
-                            <li><div class="progress_bar"></div></li>
-                            <li>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                            </li>
-                          </ul>
-                          <ul class="two_star ul_li">
-                            <li><span>2 Star</span></li>
-                            <li><div class="progress_bar"></div></li>
-                            <li>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                            </li>
-                          </ul>
-                          <ul class="one_star ul_li">
-                            <li><span>1 Star</span></li>
-                            <li><div class="progress_bar"></div></li>
-                            <li>
-                              <i class="fas fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="customer_reviews">
-                    <h4 class="reviews_tab_title">2 reviews for this product</h4>
-                    <div class="customer_review_item clearfix">
-                      <div class="customer_image">
-                        <img src="assets/images/team/team_1.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                      </div>
-                      <div class="customer_content">
-                        <div class="customer_info">
-                          <ul class="rating_star ul_li">
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star-half-alt"></i></li>
-                          </ul>
-                          <h4 class="customer_name">Aonathor troet</h4>
-                          <span class="comment_date">August 2, 2023</span>
-                        </div>
-                        <p class="mb-0">
-                          Nice Product, I got one in black. Goes with anything!
-                        </p>
-                      </div>
-                    </div>
-
-                    <div class="customer_review_item clearfix">
-                      <div class="customer_image">
-                        <img src="assets/images/team/team_2.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                      </div>
-                      <div class="customer_content">
-                        <div class="customer_info">
-                          <ul class="rating_star ul_li">
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star-half-alt"></i></li>
-                          </ul>
-                          <h4 class="customer_name">Danial obrain</h4>
-                          <span class="comment_date">August 2, 2023</span>
-                        </div>
-                        <p class="mb-0">
-                          Great product quality, Great Design and Great Service.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="customer_review_form">
-                    <h4 class="reviews_tab_title">Add a review</h4>
-                    <p>
-                      Your email address will not be published. Required fields are marked *
-                    </p>
-                    <form action="javascript:void(0)">
-                      <div class="form_item">
-                        <input type="text" name="name" placeholder="Your name*">
-                      </div>
-                      <div class="form_item">
-                        <input type="email" name="email" placeholder="Your Email*">
-                      </div>
-                      <div class="checkbox_item">
-                        <input id="save_checkbox" type="checkbox">
-                        <label for="save_checkbox">Save my name, email, and website in this browser for the next time I comment.</label>
-                      </div>
-                      <div class="your_ratings">
-                        <h5>Your Ratings:</h5>
-                        <button type="button"><i class="fa-solid fa-star"></i></button>
-                        <button type="button"><i class="fa-solid fa-star"></i></button>
-                        <button type="button"><i class="fa-solid fa-star"></i></button>
-                        <button type="button"><i class="fa-solid fa-star"></i></button>
-                        <button type="button"><i class="fa-solid fa-star"></i></button>
-                      </div>
-                      <div class="form_item">
-                        <textarea name="comment" placeholder="Your Review*"></textarea>
-                      </div>
-                      <button type="submit" class="btn btn_primary">Submit Now</button>
-                    </form>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
