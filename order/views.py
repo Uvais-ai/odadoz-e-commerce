@@ -191,7 +191,7 @@ def remove_from_wishlist(request, item_id):
 
     if wishlist_item.user == request.user:
         wishlist_item.delete()
-        messages.success(request, f"{wishlist_item.product.name} removed from your wishlist!")
+        messages.success(request, f"removed from your wishlist!")
     else:
         messages.error(request, "You are not authorized to remove this item from the wishlist.")
 
